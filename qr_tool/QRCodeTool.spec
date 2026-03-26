@@ -9,7 +9,6 @@ a = Analysis(
     datas=[],
     hiddenimports=['PyQt5', 'PyQt5.QtCore', 'PyQt5.QtGui', 'PyQt5.QtWidgets', 'qrcode', 'PIL', 'pyzbar', 'pyzbar.pyzbar'],
     hookspath=[],
-    hooksconfig={},
     runtime_hooks=[],
     excludes=['pkg_resources'],
     noarchive=False,
