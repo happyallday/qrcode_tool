@@ -2,3 +2,4 @@ PyQt5==5.15.10
 qrcode[pil]==7.4.2
 Pillow==10.2.0
 pyzbar==0.1.9
+PyInstaller==6.3.0
