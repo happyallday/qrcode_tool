@@ -3,8 +3,9 @@ import os
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                              QHBoxLayout, QLabel, QLineEdit, QPushButton, 
                              QTextEdit, QFileDialog, QMessageBox, QGroupBox)
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtGui import QPixmap, QImage, QColor
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QColorDialog
 from PIL import Image
 import qrcode
 from pyzbar.pyzbar import decode
@@ -16,6 +17,8 @@ class QRCodeTool(QMainWindow):
         self.setWindowTitle("二维码工具")
         self.setMinimumSize(800, 500)
         self.current_qr_image = None
+        self.fore_color = (0, 0, 0)
+        self.back_color = (255, 255, 255)
         self.init_ui()
 
     def init_ui(self):
@@ -41,6 +44,18 @@ class QRCodeTool(QMainWindow):
         self.generate_btn = QPushButton("生成二维码")
         self.generate_btn.clicked.connect(self.generate_qrcode)
         layout.addWidget(self.generate_btn)
+
+        color_layout = QHBoxLayout()
+        self.fore_color_btn = QPushButton("前景色")
+        self.fore_color_btn.setStyleSheet("background-color: black; color: white;")
+        self.fore_color_btn.clicked.connect(self.select_fore_color)
+        self.back_color_btn = QPushButton("背景色")
+        self.back_color_btn.setStyleSheet("background-color: white; border: 1px solid #ccc;")
+        self.back_color_btn.clicked.connect(self.select_back_color)
+        color_layout.addWidget(self.fore_color_btn)
+        color_layout.addWidget(self.back_color_btn)
+        color_layout.addStretch()
+        layout.addLayout(color_layout)
 
         self.qr_label = QLabel()
         self.qr_label.setMinimumSize(250, 250)
@@ -94,7 +109,7 @@ class QRCodeTool(QMainWindow):
         qr.add_data(content)
         qr.make(fit=True)
 
-        img = qr.make_image(fill_color="black", back_color="white")
+        img = qr.make_image(fill_color=self.fore_color, back_color=self.back_color)
         self.current_qr_image = img
 
         img_pil = img.resize((250, 250))
@@ -103,6 +118,18 @@ class QRCodeTool(QMainWindow):
         pixmap = QPixmap("/tmp/temp_qr.png")
         self.qr_label.setPixmap(pixmap.scaled(250, 250, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.save_btn.setEnabled(True)
+
+    def select_fore_color(self):
+        color = QColorDialog.getColor(QColor(*self.fore_color), self, "选择前景色")
+        if color.isValid():
+            self.fore_color = (color.red(), color.green(), color.blue())
+            self.fore_color_btn.setStyleSheet(f"background-color: {color.name()}; color: {'white' if sum(self.fore_color) < 384 else 'black'};")
+
+    def select_back_color(self):
+        color = QColorDialog.getColor(QColor(*self.back_color), self, "选择背景色")
+        if color.isValid():
+            self.back_color = (color.red(), color.green(), color.blue())
+            self.back_color_btn.setStyleSheet(f"background-color: {color.name()}; color: {'white' if sum(self.back_color) < 384 else 'black'};")
 
     def save_qrcode(self):
         if self.current_qr_image is None:
