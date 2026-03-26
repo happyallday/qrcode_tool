@@ -1,10 +1,14 @@
 @echo off
 echo Installing dependencies...
-pip install PyInstaller==5.13.2
+pip install pyinstaller
+
+echo Cleaning previous build...
+if exist dist rmdir /s /q dist
+if exist build rmdir /s /q build
+if exist *.spec del /q *.spec
 
 echo Building exe...
-pyinstaller --onefile --windowed --name QRCodeTool main.py
+pyinstaller --onefile --console --name QRCodeTool main.py
 
 echo Done!
-echo Exe file: dist\QRCodeTool.exe
 pause
