@@ -24,7 +24,11 @@ pip install -r requirements.txt
 ## 运行
 
 ```bash
-python main.py
+# 方式1: 使用运行脚本 (推荐)
+./run.sh
+
+# 方式2: 直接运行
+python3 main.py
 ```
 
 ## 使用
