@@ -1,5 +1,6 @@
 @echo off
 echo Installing dependencies...
+pip install --upgrade setuptools
 pip install pyinstaller
 
 echo Cleaning previous build...
