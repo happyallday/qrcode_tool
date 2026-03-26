@@ -1,5 +1,6 @@
 import sys
 import os
+import tempfile
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                              QHBoxLayout, QLabel, QLineEdit, QPushButton, 
                              QTextEdit, QFileDialog, QMessageBox, QGroupBox)
@@ -113,9 +114,10 @@ class QRCodeTool(QMainWindow):
         self.current_qr_image = img
 
         img_pil = img.resize((250, 250))
-        img_pil.save("/tmp/temp_qr.png")
+        temp_path = os.path.join(tempfile.gettempdir(), "temp_qr.png")
+        img_pil.save(temp_path)
         
-        pixmap = QPixmap("/tmp/temp_qr.png")
+        pixmap = QPixmap(temp_path)
         self.qr_label.setPixmap(pixmap.scaled(250, 250, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.save_btn.setEnabled(True)
 
