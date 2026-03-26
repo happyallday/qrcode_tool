@@ -1,11 +1,11 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-echo "正在安装打包依赖..."
+echo "Installing dependencies..."
 pip install --break-system-packages PyInstaller==6.3.0
 
-echo "正在打包exe..."
-pyinstaller --onefile --windowed --name QRCodeTool --add-data "main.py:." main.py
+echo "Building exe..."
+pyinstaller --onefile --windowed --name QRCodeTool --collect-all pyzbar --hidden-import=PyQt5 --hidden-import=qrcode --hidden-import=PIL main.py
 
-echo "打包完成！"
-echo "exe文件位于: dist/QRCodeTool.exe"
+echo "Done!"
+echo "Exe file: dist/QRCodeTool.exe"
