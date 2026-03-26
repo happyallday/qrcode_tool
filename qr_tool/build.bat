@@ -9,7 +9,7 @@ if exist build rmdir /s /q build
 if exist *.spec del /q *.spec
 
 echo Building exe...
-pyinstaller --onefile --console --name QRCodeTool main.py
+pyinstaller --onefile --console --name QRCodeTool --exclude-module pkg_resources main.py
 
 echo Done!
 pause
