@@ -1,10 +1,10 @@
 @echo off
-echo 正在安装打包依赖...
+echo Installing dependencies...
 pip install PyInstaller==6.3.0
 
-echo 正在打包exe...
+echo Building exe...
 pyinstaller --onefile --windowed --name QRCodeTool --add-data "main.py;." main.py
 
-echo 打包完成！
-echo exe文件位于: dist\QRCodeTool.exe
+echo Done!
+echo Exe file: dist\QRCodeTool.exe
 pause
